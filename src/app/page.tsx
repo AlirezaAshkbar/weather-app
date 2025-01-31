@@ -3,6 +3,9 @@ import { useQuery } from "@tanstack/react-query";
 import { api } from "./api/weatherApi";
 import Navbar from "./components/Navbar";
 import axios from "axios";
+import { format, parseISO } from "date-fns";
+import TodayData from "./components/TodayData";
+import { convertKelvinToCelsius } from "./utils/convertKelvinToCelsius";
 
 export default function Home() {
   const { isPending, data } = useQuery({
@@ -16,7 +19,9 @@ export default function Home() {
       }
     },
   });
+  const firstData = data?.list[0];
   console.log(data);
+  console.log(firstData);
   if (isPending)
     return (
       <div className="flex items-center min-h-screen justify-center">
@@ -27,6 +32,15 @@ export default function Home() {
     <>
       <div className="flex flex-col gap-4 bg-gray-100 min-h-screen">
         <Navbar />
+        <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb10 pt-4">
+          {/* to day data */}
+          <section>
+            <TodayData
+              toDay={format(parseISO(firstData?.dt_txt ?? ""), "EEEE")}
+              temp={convertKelvinToCelsius(firstData?.main.temp ?? 0)}
+            />
+          </section>
+        </main>
       </div>
     </>
   );
