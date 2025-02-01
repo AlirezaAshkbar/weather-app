@@ -1,24 +1,12 @@
 "use client";
-import { useQuery } from "@tanstack/react-query";
-import { api } from "./api/weatherApi";
+import { weatherApi } from "./api/weatherApi";
 import Navbar from "./components/Navbar";
-import axios from "axios";
-import { format, parseISO } from "date-fns";
 import TodayData from "./components/TodayData";
-import { convertKelvinToCelsius } from "./utils/convertKelvinToCelsius";
+import useFetch from "./hooks/useFetch";
+import { WeatherApiResponse } from "./Props/weatherProps";
 
 export default function Home() {
-  const { isPending, data } = useQuery({
-    queryKey: ["repoData"],
-    queryFn: async () => {
-      try {
-        const response = await axios.get(api);
-        return response.data;
-      } catch (err) {
-        throw new Error("Failed to fetch data" + err);
-      }
-    },
-  });
+  const { data, isPending } = useFetch<WeatherApiResponse>(weatherApi);
   const firstData = data?.list[0];
   console.log(data);
   console.log(firstData);
@@ -35,10 +23,7 @@ export default function Home() {
         <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb10 pt-4">
           {/* to day data */}
           <section>
-            <TodayData
-              toDay={format(parseISO(firstData?.dt_txt ?? ""), "EEEE")}
-              temp={convertKelvinToCelsius(firstData?.main.temp ?? 0)}
-            />
+            <TodayData api={weatherApi} />
           </section>
         </main>
       </div>
