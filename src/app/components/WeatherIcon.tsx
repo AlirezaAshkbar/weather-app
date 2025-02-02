@@ -4,7 +4,7 @@ import { cn } from "../utils/cn";
 
 const WeatherIcon = ({
   iconName,
-  ...props // ✅ Spread remaining props after destructuring `iconName`
+  ...props 
 }: React.HTMLProps<HTMLDivElement> & { iconName: string }) => {
   return (
     <div {...props} className={cn("relative h-20 w-20")}>

@@ -1,7 +1,9 @@
 "use client";
+
 import { weatherApi } from "./api/weatherApi";
 import Navbar from "./components/Navbar";
 import TodayData from "./components/TodayData";
+import WeekForcast from "./components/WeekForcast";
 import useFetch from "./hooks/useFetch";
 import { WeatherApiResponse } from "./Props/weatherProps";
 
@@ -22,9 +24,9 @@ export default function Home() {
         <Navbar />
         <main className="px-3 max-w-7xl mx-auto flex flex-col gap-9 w-full pb10 pt-4">
           {/* to day data */}
-          <section>
-            <TodayData api={weatherApi} />
-          </section>
+          <TodayData api={weatherApi} />
+          {/* 7 days forcast */}
+          <WeekForcast />
         </main>
       </div>
     </>
