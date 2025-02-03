@@ -7,7 +7,10 @@ const SingleWeatherdetails = ({
   value,
 }: SingleWeatherData) => {
   return (
-    <div className="flex  flex-col justify-between gap-2 items-center  font-semibold text-black/80">
+    <div
+      className="flex flex-col justify-between gap-2 items-center font-semibold text-black/80 transition-all hover:scale-105
+     hover:font-bold"
+    >
       <p className="whitespace-nowrap">{information}</p>
       <div className="text-3xl">{icon}</div>
       <p>{value}</p>

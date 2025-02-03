@@ -15,11 +15,17 @@ type Props = { api: string };
 function TodayData({ api }: Props) {
   const { data } = useFetch<WeatherApiResponse>(api);
   const firstData = data?.list[0];
-
+  
   return (
     <div className="space-y-4">
-      <h2 className="flex gap-1 text-2xl items-end">
-        <p>{format(parseISO(firstData?.dt_txt ?? ""), "EEEE")}</p>
+      <h2 className="flex gap-1 text-2xl items-center">
+        <p>
+          {firstData?.dt_txt
+            ? format(parseISO(firstData.dt_txt), "EEEE")
+            : "N/A"}
+        </p>
+
+        {/* <p>{format(parseISO(firstData?.dt_txt ?? ""),"EEEE")}</p> */}
       </h2>
       <Container className="gap-10 px-6">
         {/* temprature */}
@@ -30,7 +36,7 @@ function TodayData({ api }: Props) {
           </span>
           <div className=" space-x-1 whitespace-nowrap text-gray-700">
             <p>
-              Feels like {}
+              Feels like
               <span>
                 {convertKelvinToCelsius(firstData?.main.feels_like ?? 0)}°
               </span>

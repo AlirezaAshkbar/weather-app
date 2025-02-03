@@ -83,3 +83,14 @@ export type WeatherDetailsProps = {
   sunrise: string;
   sunset: string;
 };
+
+export interface ForcastWeatherDetails extends  WeatherDetailsProps {
+  weatherIcon: string;
+  date: string;
+  day: string;
+  temp: number;
+  feels_like: number;
+  temp_min: number;
+  temp_max: number;
+  description: string;
+}
