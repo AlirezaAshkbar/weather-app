@@ -19,12 +19,14 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
 
   return (
     <>
-      <section className="flex w-full flex-col mb-10  ">
+      <section className="flex w-full flex-col mb-10">
         <Container
-          className={`gap-4 items-center  ${BgContainer(description)}`}
+          className={`gap-4 items-center shadow-black shadow-sm ${BgContainer(
+            description
+          )}`}
         >
           <section className="flex gap-4 items-center px-4">
-            <div className="flex flex-col gap-1 items-center ">
+            <div className="flex flex-col gap-1 items-center  ">
               <WeatherIcon
                 iconName={getDayOrNightIcon(weatherIcon, "2025-02-04 12:00:00")}
               />
@@ -32,7 +34,7 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
               <p className="text-sm">{day}</p>
             </div>
             {/* Temperature and Description */}
-            <div className="flex flex-col px-4 ">
+            <div className="flex flex-col px-4  text-center ">
               <span className="text-5xl">
                 {convertKelvinToCelsius(temp ?? 0)}°
                 <p className="text-xs space-x-1 whitespace-nowrap">

@@ -81,7 +81,7 @@ function TodayData({ api }: Props) {
           />
         </Container>
         {/* right */}
-        <Container className="bg-yellow-300/85 px-6 gap-4 justify-between overflow-x-auto p-6 ">
+        <Container className="bg-yellow-300/85 px-6 gap-4 justify-between overflow-x-auto p-6 custom-scrollbar">
           <WeatherDetails
             visability={metersToKilometers(firstData?.visibility ?? 10000)}
             humidity={`${firstData?.main.humidity}%`}
