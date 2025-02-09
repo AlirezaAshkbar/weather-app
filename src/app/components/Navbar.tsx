@@ -14,7 +14,6 @@ export default function Navbar() {
   const [place, setPlace] = useAtom(placeAtom);
   const [_, setLoadingCity] = useAtom(loadingCityAtom);
 
-  // 🔹 Fetch city suggestions
   async function handleInputchange(value: string) {
     setCity(value);
     setShowSuggestions(false);
@@ -24,12 +23,14 @@ export default function Navbar() {
           `https://api.openweathermap.org/geo/1.0/direct?q=${value}&limit=5&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
         );
 
-        const fetchedSuggestions = response.data.map((item: any) => item.name); // ✅ Fix API response
+        const fetchedSuggestions = response.data.map(
+          (item: { name: string }) => item.name
+        );
         setSuggestions(fetchedSuggestions);
         setShowSuggestions(true);
         setError("");
       } catch (error) {
-        setError("Error fetching locations");
+        setError("Error fetching locations" + error);
         setSuggestions([]);
         setShowSuggestions(false);
       }
@@ -39,14 +40,31 @@ export default function Navbar() {
     }
   }
 
-  // 🔹 Handle city selection from suggestions
+  function handleCurrentLocation() {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(async (position) => {
+        const { latitude, longitude } = position.coords;
+        try {
+          const response = await axios.get(
+            `https://api.openweathermap.org/data/2.5/waether?lat=${latitude}&lon=${longitude}&appid=${process.env.NEXT_PUBLIC_WEATHER_KEY}`
+          );
+          setTimeout(() => {
+            setLoadingCity(false);
+            setPlace(response.data.name);
+            console.log(response.data.name);
+          }, 500);
+        } catch (error) {
+          setLoadingCity(false);
+        }
+      });
+    }
+  }
   function handleSuggestionClick(value: string) {
     setCity(value);
-    setPlace(value); // ✅ Ensure `placeAtom` updates
+    setPlace(value);
     setShowSuggestions(false);
   }
 
-  // 🔹 Handle form submission
   function handleSubmitSearch(e: React.FormEvent<HTMLFormElement>) {
     setLoadingCity(true);
     e.preventDefault();
@@ -55,9 +73,10 @@ export default function Navbar() {
       setLoadingCity(false);
     } else {
       setError("");
+      setPlace(city);
+      setCity("");
       setTimeout(() => {
         setLoadingCity(false);
-        setPlace(city); // ✅ Ensure search updates `placeAtom`
         setShowSuggestions(false);
       }, 500);
     }
@@ -71,7 +90,11 @@ export default function Navbar() {
           <MdWbSunny className="text-3xl mt-1 text-yellow-300" />
         </div>
         <section className="flex gap-2 items-center">
-          <MdMyLocation className="text-2xl text-gray-400 hover:opacity-80 cursor-pointer" />
+          <MdMyLocation
+            title="Your current location"
+            onClick={handleCurrentLocation}
+            className="text-2xl text-gray-400 hover:opacity-80 cursor-pointer"
+          />
           <MdOutlineLocationOn className="text-3xl" />
           <p className="text-slate-900/80 text-sm">{place}</p>
           <div className="relative">
@@ -94,8 +117,6 @@ export default function Navbar() {
     </nav>
   );
 }
-
-// 🔹 Suggestions Box Component
 function SuggestionsBox({
   showSuggestions,
   suggestions,

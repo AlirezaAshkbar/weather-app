@@ -13,6 +13,6 @@ const useFetch = <T>(api: string) => {
       }
     },
   });
-};
+};    
 
 export default useFetch;
