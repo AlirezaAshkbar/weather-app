@@ -1,3 +1,4 @@
+
 import { atom } from "jotai";
 
 export const placeAtom = atom("tehran");
@@ -9,4 +10,5 @@ export const weatherApiAtom = atom((get) => {
   };
 });
 
+console.log(process.env.NEXT_PUBLIC_WEATHER_KEY)
 export const loadingCityAtom = atom(false)

@@ -9,13 +9,17 @@ import getDayOrNightIcon from "../utils/getDayOrNightIcon";
 import WeatherDetails from "./WeatherDetails";
 import { metersToKilometers } from "../utils/metersToKilometers";
 import { convertWindSpeed } from "../utils/convertWindSpeed";
+import SkeletonLoading from "./SkeletonLoading";
 
 type Props = { api: string };
 
 function TodayData({ api }: Props) {
-  const { data } = useFetch<WeatherApiResponse>(api);
+  const { data, isPending } = useFetch<WeatherApiResponse>(api);
   const firstData = data?.list[0];
-  
+  if (isPending) {
+    return <SkeletonLoading />;
+  }
+
   return (
     <div className="space-y-4">
       <h2 className="flex gap-1 text-2xl items-center">
@@ -24,8 +28,6 @@ function TodayData({ api }: Props) {
             ? format(parseISO(firstData.dt_txt), "EEEE")
             : "N/A"}
         </p>
-
-        {/* <p>{format(parseISO(firstData?.dt_txt ?? ""),"EEEE")}</p> */}
       </h2>
       <Container className="gap-10 px-6">
         {/* temprature */}
