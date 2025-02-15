@@ -51,7 +51,7 @@ const WeatherModal: React.FC<ModalProps> = ({ isOpen, onClose, details }) => {
 
   return (
     <div
-      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50"
+      className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 select-none"
       onClick={handleBackdropClick} // Attach click handler to the backdrop
     >
       <motion.div

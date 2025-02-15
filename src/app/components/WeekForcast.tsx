@@ -34,14 +34,14 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
 
   return (
     <>
-      <section className="flex w-full flex-col mb-10">
+      <section className="flex w-full flex-col mb-10 cursor-pointer select-none">
         <Container
           className={`gap-4 items-center shadow-black shadow-sm ${BgContainer(
             description
           )}`}
           onClick={handleDetailsClick} // Add click event to open modal
         >
-          <section className="flex gap-4 items-center px-4">
+          <section className="flex gap-4 items-center px-4 ">
             <div className="flex flex-col gap-1 items-center  ">
               <WeatherIcon
                 iconName={getDayOrNightIcon(weatherIcon, "2025-02-04 12:00:00")}
@@ -50,7 +50,7 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
               <p className="text-sm">{day}</p>
             </div>
             {/* Temperature and Description */}
-            <div className="flex flex-col px-4 w-25 text-center ">
+            <div className="flex flex-col px-4 w-25 text-center  ">
               <span className="text-5xl">
                 {convertKelvinToCelsius(temp ?? 0)}°
                 <p className="text-xs space-x-1 whitespace-nowrap">
