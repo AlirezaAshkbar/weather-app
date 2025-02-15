@@ -58,7 +58,7 @@ export default function Home() {
             <p className="text-2xl">Forcast (7 days)</p>
             <span>
               {firstDataForEachDate
-                .filter((d): d is WeatherData => d !== undefined) // Filter out undefined
+                .filter((d): d is WeatherData => d !== undefined) 
                 .map((d, i) => (
                   <WeekForcast
                     key={i}

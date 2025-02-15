@@ -10,24 +10,28 @@ import WeatherDetails from "./WeatherDetails";
 import { metersToKilometers } from "../utils/metersToKilometers";
 import { convertWindSpeed } from "../utils/convertWindSpeed";
 import SkeletonLoading from "./SkeletonLoading";
+import { useAtom } from "jotai";
+import { placeAtom } from "../atom";
 
 type Props = { api: string };
 
 function TodayData({ api }: Props) {
   const { data, isPending } = useFetch<WeatherApiResponse>(api);
   const firstData = data?.list[0];
+    const [place] = useAtom(placeAtom);
   if (isPending) {
     return <SkeletonLoading />;
   }
 
   return (
     <div className="space-y-4">
-      <h2 className="flex gap-1 text-2xl items-center">
+      <h2 className="flex gap-1 text-2xl items-center justify-between">
         <p>
           {firstData?.dt_txt
             ? format(parseISO(firstData.dt_txt), "EEEE")
             : "N/A"}
         </p>
+        <p>{place}</p>
       </h2>
       <Container className="gap-10 px-6">
         {/* temprature */}

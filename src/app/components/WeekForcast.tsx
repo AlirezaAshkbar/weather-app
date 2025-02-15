@@ -1,13 +1,18 @@
-import React from "react";
+import React, { useState } from "react";
 import Container from "./Container";
-import { ForcastWeatherDetails } from "../Props/weatherProps";
-import { convertKelvinToCelsius } from "../utils/convertKelvinToCelsius";
 import WeatherIcon from "./WeatherIcon";
 import WeatherDetails from "./WeatherDetails";
 import { BgContainer } from "../utils/bgContainer";
 import getDayOrNightIcon from "../utils/getDayOrNightIcon";
+import { convertKelvinToCelsius } from "../utils/convertKelvinToCelsius";
+import WeatherModal from "./WeatherModal";
+import { ForcastWeatherDetails } from "../Props/weatherProps";
 
 const WeekForcast = (props: ForcastWeatherDetails) => {
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedDetails, setSelectedDetails] =
+    useState<ForcastWeatherDetails | null>(null);
+
   const {
     weatherIcon = "02d",
     date = "19.09",
@@ -17,6 +22,16 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
     feels_like,
   } = props;
 
+  const handleDetailsClick = () => {
+    setSelectedDetails(props); // Set the current day's details
+    setModalOpen(true); // Open the modal
+  };
+
+  const handleModalClose = () => {
+    setModalOpen(false); // Close the modal
+    setSelectedDetails(null);
+  };
+
   return (
     <>
       <section className="flex w-full flex-col mb-10">
@@ -24,6 +39,7 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
           className={`gap-4 items-center shadow-black shadow-sm ${BgContainer(
             description
           )}`}
+          onClick={handleDetailsClick} // Add click event to open modal
         >
           <section className="flex gap-4 items-center px-4">
             <div className="flex flex-col gap-1 items-center  ">
@@ -51,6 +67,13 @@ const WeekForcast = (props: ForcastWeatherDetails) => {
           </section>
         </Container>
       </section>
+
+      {/* Weather Modal */}
+      <WeatherModal
+        isOpen={isModalOpen}
+        onClose={handleModalClose}
+        details={selectedDetails ?? undefined}
+      />
     </>
   );
 };
